@@ -1,0 +1,10 @@
+.EditName{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.inputs{
+    /* display: flex; */
+    
+    /* gap: 2rem; */
+}

@@ -1,0 +1,19 @@
+.account{
+    height: calc(100vh - .1rem);
+    background: red;
+}
+/* .TitleAccount{
+    margin-top: 7rem;
+} */
+.cards{
+    margin-top: 2rem;
+    background-color: #e0e6ee;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.main{
+    padding-top: 6rem;
+    background-color: #e0e6ee;
+    text-align: center;
+}

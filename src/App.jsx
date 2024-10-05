@@ -4,6 +4,7 @@ import Login from './pages/Login/Login'
 import Home from './pages/Home/Home'
 import Account from './pages/Account/Account'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
+import EditName from './components/EditName/EditName '
 
 const App = () => {
   return (
@@ -19,8 +20,15 @@ const App = () => {
               <Account /> {/* Page protégée */}
             </ProtectedRoute>
           } 
-        />
-
+          />
+          {/* <Route 
+          path="/edit-name" 
+          element={
+            <ProtectedRoute>
+              <EditName /> 
+            </ProtectedRoute>
+          } 
+          /> */}
           {/* <Route path="*" element={<Error />} />
           <Route path="/error" element={<Error />} /> */}
         </Route>
