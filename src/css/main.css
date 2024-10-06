@@ -11,6 +11,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  /* max-height: 100vh; */
 }
 
 .main {
@@ -19,6 +20,7 @@ body {
 
 .bg-dark {
   background-color: #12002b;
+  /* height: 70vh; */
 }
 /*  */
 .sr-only {
@@ -40,11 +42,13 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 5px 20px;
+  /* background: yellow; */
 }
 
 .main-nav a {
   font-weight: bold;
   color: #2c3e50;
+  text-decoration: none;
 }
 
 .main-nav a.router-link-exact-active {
@@ -136,7 +140,8 @@ body {
 }
 
 .feature-icon {
-  width: 100px;
+  /* width: 100px; */
+  width: 65px;
   border: 10px solid #00bc77;
   border-radius: 50%;
   padding: 1rem;
@@ -144,7 +149,7 @@ body {
 
 .feature-item {
   flex: 1;
-  padding: 2.5rem;
+  padding: 1rem;
 }
 
 .feature-item-title {
@@ -154,9 +159,26 @@ body {
   margin-bottom: 0.5rem;
 }
 
+
+.login{
+  background-color: #12002b;
+}
+.sign-in-content {
+  box-sizing: border-box;
+  background-color: red;
+  /* background-color: white; */
+  width: 300px;
+  /* margin: 0 auto; */
+  /* margin-top: 3rem; */
+  padding: 2rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .sign-in-button {
   display: block;
-  width: 100%;
+  width: 95%;
   padding: 8px;
   font-size: 1.1rem;
   font-weight: bold;
@@ -165,16 +187,6 @@ body {
   background-color: #00bc77;
   color: #fff;
 }
-
-.sign-in-content {
-  box-sizing: border-box;
-  background-color: white;
-  width: 300px;
-  margin: 0 auto;
-  margin-top: 3rem;
-  padding: 2rem;
-}
-
 .sign-in-icon {
   font-size: 5rem;
 }
@@ -204,10 +216,15 @@ body {
 }
 
 .footer {
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
   border-top: 2px solid #ccc;
-  padding: 2rem 0 1.5rem;
+  padding: 1rem 0 1.5rem;
+  /* background: blue; */
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .footer-text {
@@ -289,4 +306,9 @@ body {
   .transaction-button {
     width: 200px;
   }
+}
+
+
+.error{
+  color: red;
 }
