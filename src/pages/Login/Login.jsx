@@ -73,6 +73,8 @@ import '../../css/main.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../Redux/slices/authSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 
@@ -90,9 +92,29 @@ const Login = () => {
   // Redirige vers la page du compte après la connexion
     useEffect(() => {
       if (isAuthenticated) {
+        console.log("Authenticated: Triggering success toast");
+        toast.success("Vous etes connectés!");
         navigate('/user'); // Redirection vers la page de l'utilisateur
       }
     }, [isAuthenticated, navigate]);
+
+    useEffect(() => {
+      if (error) {
+        toast.error(`Erreur: ${error}`);
+      }
+    }, [error]);
+    // const [userData, setUserData] = useState();
+    // let saveUserData = () => {
+    //   const userToken = localStorage.getItem("userToken");
+    //   const decodedUserToken = jwtDecode(userToken); // decode your token
+    //   // console.log(decodedAdminToken);
+    //   setUserData(decodedUserToken);
+    // };
+    // useEffect(() => {
+    //   if (localStorage.getItem("userToken")) {
+    //     saveUserData();
+    //   }
+    // }, []);
 
   return (
 
@@ -133,6 +155,7 @@ const Login = () => {
           <button type='submit' className="sign-in-button" disabled={loading}>{loading ? 'Connexion...' : 'Sign In'}</button>
           {error && <p className="error">{error}</p>}
         </form>
+        <ToastContainer />
       </section>
     </main>
 

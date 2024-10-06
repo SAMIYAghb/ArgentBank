@@ -4,23 +4,25 @@ import Login from './pages/Login/Login'
 import Home from './pages/Home/Home'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import User from './pages/User/User'
+import { ToastContainer } from 'react-toastify'
 
 const App = () => {
   return (
-    <Router>
-      <Routes>     
-        <Route path="/" element={<BaseLayout />}>
-          <Route index element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route 
-          path="/user" 
-          element={
-            <ProtectedRoute>
-              <User /> {/* Page protégée */}
-            </ProtectedRoute>
-          } 
-          />
-          {/* <Route 
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<BaseLayout />}>
+            <Route index element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/user"
+              element={
+                <ProtectedRoute>
+                  <User /> {/* Page protégée */}
+                </ProtectedRoute>
+              }
+            />
+            {/* <Route 
           path="/edit-name" 
           element={
             <ProtectedRoute>
@@ -28,11 +30,13 @@ const App = () => {
             </ProtectedRoute>
           } 
           /> */}
-          {/* <Route path="*" element={<Error />} />
+            {/* <Route path="*" element={<Error />} />
           <Route path="/error" element={<Error />} /> */}
-        </Route>
-      </Routes>
-    </Router>
+          </Route>
+        </Routes>
+      </Router>
+      <ToastContainer />
+    </>
   )
 }
 
