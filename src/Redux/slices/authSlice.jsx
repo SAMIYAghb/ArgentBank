@@ -3,6 +3,9 @@ import axios from 'axios';
 
 const URL_API = "http://localhost:3001/api/v1";
 
+
+
+
 // Thunk pour l'appel API du login
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
@@ -10,9 +13,13 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await axios.post(`${URL_API}/user/login`, { email, password });
       console.log(response.data)
-      return response.data; // Retourne les données de l'API si succès
+      // console.log(response.data.message)
+      // console.log(response.data.body.token)
+      // Store the JWT token in local storage
+      localStorage.setItem('userToken', response?.data?.body?.token);
+      return response?.data; // Retourne les données de l'API si succès
     } catch (error) {
-      return rejectWithValue(error.response.data); // Gestion des erreurs
+      return rejectWithValue(error?.response?.data); // Gestion des erreurs
     }
   }
 );
