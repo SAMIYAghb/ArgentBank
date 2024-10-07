@@ -1,11 +1,14 @@
 import { useState } from "react";
 import Card from "../../components/Card/Card"
 import EditName from "../../components/EditName/EditName "
-import style from './User.module.css'
+import style from './Profile.module.css'
 
 
-const User = () => {
+const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
+//   const { firstName, lastName, isAuthenticated } = useSelector((state) => state.profile);
+// console.log(firstName, lastName)
+
   return (
     <div className={style.user}>
       {
@@ -14,7 +17,8 @@ const User = () => {
           )
             : (
               <div className={style.header}>
-                <h1>Welcome back<br />Tony Jarvis!</h1>
+                <h1>Welcome back<br />firstName lastName!</h1>
+                {/* <h1>Welcome back<br />{firstName} {lastName}!</h1> */}
                 <button onClick={() => setIsEditing(true)}
                   className={style.editName}>
                   Edit Name
@@ -33,4 +37,4 @@ const User = () => {
   )
 }
 
-export default User
+export default Profile

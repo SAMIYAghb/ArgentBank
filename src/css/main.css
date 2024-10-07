@@ -45,10 +45,11 @@ body {
   /* background: yellow; */
 }
 
-.main-nav a {
+.main-nav span {
   font-weight: bold;
   color: #2c3e50;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .main-nav a.router-link-exact-active {
@@ -56,14 +57,21 @@ body {
 }
 
 .main-nav-item {
+  border: none;
+  background-color: #fff;
   text-decoration: none;
   margin-right: 0.5rem;
+  font-size: 17px;
 }
 
 .main-nav-item:hover {
   text-decoration: underline;
 }
-
+.fa-arrow-right-from-bracket{
+  color: #2c3e50;
+  width: 6px;
+  height: 6px;
+}
 .main-nav-logo {
   display: flex;
   align-items: center;

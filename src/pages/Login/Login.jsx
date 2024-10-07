@@ -31,7 +31,7 @@ const Login = () => {
         const decodedToken = jwtDecode(token);
         console.log('User Data:', decodedToken); 
       }
-      navigate('/user'); // Redirection vers la page de l'utilisateur
+      navigate('/profile'); // Redirection vers la page de l'utilisateur
     }
   }, [isAuthenticated, navigate]);
 

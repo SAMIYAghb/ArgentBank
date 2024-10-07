@@ -3,8 +3,8 @@ import BaseLayout from './components/BaseLayout/BaseLayout'
 import Login from './pages/Login/Login'
 import Home from './pages/Home/Home'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
-import User from './pages/User/User'
 import { ToastContainer } from 'react-toastify'
+import Profile from './pages/Profile/Profile'
 
 const App = () => {
   return (
@@ -15,10 +15,10 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route
-              path="/user"
+              path="/profile"
               element={
                 <ProtectedRoute>
-                  <User /> {/* Page protégée */}
+                  <Profile /> {/* Page protégée */}
                 </ProtectedRoute>
               }
             />

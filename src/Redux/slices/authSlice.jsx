@@ -27,7 +27,7 @@ export const loginUser = createAsyncThunk(
 const initialState = {
   email: '',
   password: '',
-  isAuthenticated: false,
+  isAuthenticated: !!localStorage.getItem('userToken'), // Vérifiez si le token est présent
   loading: false,
   error: null,
 };
@@ -41,6 +41,9 @@ const authSlice = createSlice({
       state.password = '';
       state.isAuthenticated = false;
       state.error = null;
+
+      // Supprimer le token JWT du localStorage
+      localStorage.removeItem('userToken');
     },
   },
   extraReducers: (builder) => {
