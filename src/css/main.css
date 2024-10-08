@@ -11,16 +11,18 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  /* max-height: 100vh; */
+
+}
+* {
+  box-sizing: border-box;
 }
 
 .main {
-  flex: 1;
+  flex: 1;/* Permet à la section principale de prendre l'espace disponible */
 }
 
 .bg-dark {
   background-color: #12002b;
-  /* height: 70vh; */
 }
 /*  */
 .sr-only {
@@ -42,7 +44,6 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 5px 20px;
-  /* background: yellow; */
 }
 
 .main-nav span {
@@ -83,7 +84,6 @@ body {
 }
 
 .hero {
-  /* background-image: url('../img/bank-tree.jpeg'); */
   background-image: url('../assets/img/bank-tree.jpeg');
   background-position: 0 -50px;
   background-size: cover;
@@ -170,14 +170,12 @@ body {
 
 .login{
   background-color: #12002b;
+  height: calc(100vh - 150px);
 }
 .sign-in-content {
   box-sizing: border-box;
-  background-color: red;
-  /* background-color: white; */
-  width: 300px;
-  /* margin: 0 auto; */
-  /* margin-top: 3rem; */
+  background-color: white;
+  width: 350px;
   padding: 2rem;
   position: absolute;
   top: 50%;
@@ -186,15 +184,22 @@ body {
 }
 .sign-in-button {
   display: block;
-  width: 95%;
+  width: 100%;
   padding: 8px;
   font-size: 1.1rem;
   font-weight: bold;
   margin-top: 1rem;
-  border-color: #00bc77;
+  border: 1px solid #00bc77;
   background-color: #00bc77;
   color: #fff;
   cursor: pointer;
+  border-radius: 3px;
+}
+
+.sign-in-button:hover{
+  color: #00bc77;
+  background: #fff;
+  border: 3px solid #00bc77;
 }
 .sign-in-icon {
   font-size: 5rem;
@@ -225,15 +230,14 @@ body {
 }
 
 .footer {
-  /* display: flex;
-  justify-content: center; */
-  border-top: 2px solid #ccc;
-  padding: 1rem 0 1.5rem;
-  /* background: blue; */
   position: relative;
   bottom: 0;
   left: 0;
   right: 0;
+  border-top: 2px solid #ccc;
+  padding: 1rem 0 1.5rem;
+  text-align: center;
+  width: 100%;
 }
 
 .footer-text {

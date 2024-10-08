@@ -3,7 +3,6 @@ import Card from "../../components/Card/Card"
 import EditName from "../../components/EditName/EditName "
 import style from './Profile.module.css'
 
-
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
 //   const { firstName, lastName, isAuthenticated } = useSelector((state) => state.profile);

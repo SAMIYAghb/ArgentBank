@@ -11,3 +11,244 @@ frent:
 cd argentBank
 npm run dev
 http://localhost:5173/
+
+
+
+
+
+
+Thunk pour le Login
+loginUser : Ce thunk effectue une requête POST vers l'API pour authentifier un utilisateur avec un email et un mot de passe.
+rejectWithValue : En cas d'erreur, cette fonction permet de renvoyer une valeur personnalisée pour gérer les erreurs dans les reducers.
+localStorage : Le token JWT est stocké dans le local storage pour maintenir la session de l'utilisateur après le rechargement de la page.
+
+
+État Initial
+email : Stocke l'email de l'utilisateur, utilisé pour une éventuelle personnalisation ou affichage.
+isAuthenticated : Détermine si l'utilisateur est authentifié en vérifiant la présence d'un token dans le local storage.
+loading : Indique si une opération asynchrone est en cours (comme une requête API).
+error : Stocke les messages d'erreur potentiels en cas d'échec d'une opération.
+
+
+
+Création du Slice
+name : Nom du slice, utilisé pour l'identification dans le store Redux.
+initialState : L'état initial du slice.
+reducers : Un objet contenant des fonctions qui décrivent comment modifier l'état en réponse à des actions synchrones.
+logout : Réinitialise l'état de l'authentification, vide l'email, met isAuthenticated à false et retire le token du local storage.
+extraReducers : Permet de gérer les actions asynchrones créées avec createAsyncThunk.
+pending : Déclenché lorsque l'action loginUser est en attente (lors de l'envoi de la requête). Met à jour loading et réinitialise les erreurs.
+fulfilled : Déclenché lorsque l'action loginUser réussit. Met à jour l'email et l'état d'authentification.
+rejected : Déclenché lorsque l'action loginUser échoue. Met à jour loading et stocke l'erreur.
+
+
+
+Le authSlice est donc responsable de la gestion de l'état d'authentification dans votre application. Il permet de :
+
+Gérer la connexion et la déconnexion des utilisateurs.
+Maintenir l'état d'authentification entre les sessions grâce au local storage.
+Gérer les requêtes asynchrones pour le login et les erreurs associées.
+Cette structure permet d'avoir un code organisé, modulaire et facilement maintenable. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+openapi: 3.0.3
+info:
+  title: API de Gestion des Transactions
+  description: API pour gérer les transactions des utilisateurs.
+  version: 1.0.0
+servers:
+  - url: https://localhost:3001
+tags:
+  - name: Transactions
+    description: Endpoints pour gérer les transactions des utilisateurs
+    
+    
+paths:
+  /transactions:
+    get:
+      tags:
+        - Transactions
+      summary: Récupérer toutes les transactions pour le mois en cours
+      description:  Récupère toutes les transactions groupées par compte pour le mois en cours.
+      responses:
+        '200':
+          description: Succès - Liste des transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '404':
+          description: Aucune transaction trouvée pour le mois en cours
+    post:
+    tags:
+        - Transactions
+      summary: Ajouter une nouvelle transaction
+      description: Ajoute une nouvelle transaction à la base de données.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '201':
+          description: Succès - Transaction ajoutée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+        description: Entrée invalide pour la transaction.
+        
+  
+  /transactions/{transactionId}:
+    get:
+      tags:
+        - Transactions
+      summary: Récupérer une transaction par ID
+      description: Retourne les détails d'une transaction spécifique par son ID.
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          description: ID de la transaction à récupérer
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Succès - Renvoie les détails de la transaction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '404':
+          description: Transaction non trouvée 
+          
+    put:
+      tags:
+        - Transactions
+      summary: Modifier une transaction existante
+      description: Modifie les informations d'une transaction existante.
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          description: ID de la transaction à modifier
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '200':
+          description: Succès - Transaction mise à jour avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '404':
+          description: Transaction non trouvée
+        '400':
+          description: Erreur de validation des données de la transaction
+          
+          
+    delete:
+      tags:
+        - Transactions
+      summary: Supprimer une transaction
+      description: Supprime une transaction existante par son ID.
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          description: ID de la transaction à supprimer
+          schema:
+            type:  integer
+        responses:
+        '204':
+          description: Succès - Transaction supprimée avec succès.
+        '404':
+           description: Transaction non trouvée.
+          
+          
+  components:
+  schemas:
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID unique de la transaction
+        amount:
+          type: number
+          format: float
+          description: Montant de la transaction
+        date:
+          type: string
+          format: date-time
+          description: Date de la transaction
+        account:
+          type: string
+          description: ID du compte associé à la transaction
+        description:
+          type: string
+          description: Description de la transaction
+
+
+
+
+
+
+
+Explications des Endpoints
+GET /transactions : Récupère toutes les transactions du mois en cours, regroupées par compte.
+
+Réponses :
+200 : Liste des transactions.
+204 : Aucune transaction trouvée.
+POST /transactions : Ajoute une nouvelle transaction.
+
+Réponses :
+201 : Transaction créée avec succès.
+400 : Entrée invalide.
+GET /transactions/{transactionId} : Récupère les détails d'une transaction spécifique.
+
+Réponses :
+200 : Détails de la transaction.
+404 : Transaction non trouvée.
+PUT /transactions/{transactionId} : Modifie une transaction existante.
+
+Réponses :
+200 : Transaction mise à jour.
+400 : Entrée invalide.
+404 : Transaction non trouvée.
+DELETE /transactions/{transactionId} : Supprime une transaction spécifique.
+
+Réponses :
+204 : Transaction supprimée.
+404 : Transaction non trouvée.
+
+
+
+
+
+
+

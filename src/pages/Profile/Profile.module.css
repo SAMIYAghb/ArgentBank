@@ -1,7 +1,7 @@
 
 .user{
     background-color: #e0e6ee;
-    padding: 1.1rem;
+    padding: 1.1rem;   
 }
 .cards{
     margin-top: 2rem;
@@ -14,10 +14,14 @@
 .editName{
     padding: .5rem 1.5rem;
     font-size: 15px;
+    border: 2px solid #6558f5;
+    background: #6558f5;
+    color: #fff;
+    border-radius: 5px;
 }
 .editName:hover{
-    background: #6558f5;
-    color:#fff;
+    border: 2px solid #6558f5;
+    color: #6558f5;
+    background:#fff;
     cursor: pointer;
-    border: none;
 }
