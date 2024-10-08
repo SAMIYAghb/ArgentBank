@@ -15,7 +15,7 @@ export const loginUser = createAsyncThunk(
       console.log(response.data)
       // console.log(response.data.message)
       // console.log(response.data.body.token)
-      // Store the JWT token in local storage
+      // Store the token in local storage
       localStorage.setItem('userToken', response?.data?.body?.token);
       return response?.data; // Retourne les données de l'API si succès
     } catch (error) {

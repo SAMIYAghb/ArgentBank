@@ -93,8 +93,14 @@ const Login = () => {
             </label>
           </div>
           <button type='submit' className="sign-in-button" disabled={loading}>{loading ? 'Connexion...' : 'Sign In'}</button>
-
         </form>
+         {/* Lien pour la création de compte */}
+         <div className="sign-up-link">
+          <p>Have&apos;nt an account?</p>
+          <button onClick={() => navigate('/signup')} className="create-account-button">
+          Sign up
+          </button>
+        </div>
         <ToastContainer />
       </section>
     </main>

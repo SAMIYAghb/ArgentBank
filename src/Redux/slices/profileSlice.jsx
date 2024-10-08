@@ -12,7 +12,7 @@ export const profileUser = createAsyncThunk(
     }) => {
         try {
             // Vérifiez que la fonction est bien appelée
-      console.log('Appel de la fonction profileUser avec:', { firstName, lastName });
+      console.log('Appel de la fonction profileUser avec');
             // Récupérer le token de l'utilisateur à partir du localStorage
             const token = localStorage.getItem('userToken');
             if (!token) throw new Error('Utilisateur non authentifié');
@@ -26,16 +26,17 @@ export const profileUser = createAsyncThunk(
             // };
 
             // Requête GET pour récupérer les informations de l'utilisateur
-            const response = await axios.put(`${URL_API}/user/profile`,{ firstName, lastName }, {
+            const response = await axios.post(`${URL_API}/user/profile`,{ firstName, lastName }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
             });
+            // console.log('Token avant la requête:', token);
             // Vérifiez la réponse de l'API
-      console.log('Réponse de l API:', response.data);
+      console.log('Réponse de l API:', response?.data?.body);
             // console.log(response.data.body)
-            return response.data?.body; // Retourne les données du profil de l'utilisateur
+            return response?.data?.body; // Retourne les données du profil de l'utilisateur
         }
         catch (error) {
             console.error('Erreur lors de la mise à jour du profil:', error.response?.data || error.message);
@@ -47,7 +48,6 @@ export const profileUser = createAsyncThunk(
 const initialState = {
     firstName: '',
     lastName: '',
-    isAuthenticated: false,
     loading: false,
     error: null,
 };
@@ -63,9 +63,8 @@ const profileSlice = createSlice({
                 state.error = null;
             })
             .addCase(profileUser.fulfilled, (state, action) => {
-                state.firstName = action.payload.firstName;
-                state.lastName = action.payload.lastName;
-                state.isAuthenticated = true;
+                state.firstName = action.payload.body.firstName;
+                state.lastName = action.payload.body.lastName;
                 state.loading = false;
                 state.error = null;
             })

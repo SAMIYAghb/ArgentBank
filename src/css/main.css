@@ -229,6 +229,9 @@ body {
   font-size: 1.2rem;
 }
 
+.create-account-button{
+  padding: 3px 10px;
+}
 .footer {
   position: relative;
   bottom: 0;
