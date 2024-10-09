@@ -41,3 +41,11 @@
   background: #6558f5;
   color: #fff;
 }
+.editName{
+  padding: .5rem 1.5rem;
+  font-size: 15px;
+  border: 2px solid #6558f5;
+  background: #6558f5;
+  color: #fff;
+  border-radius: 5px;
+}

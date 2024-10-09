@@ -18,15 +18,15 @@ const Profile = () => {
   }, []);
 
   // Affichage des informations de profil ou gestion des erreurs/chargement
-  // if (loading) return <p>Chargement du profil...</p>;
-  // if (error) return <p>Erreur lors du chargement du profil: {error}</p>;
+  if (loading) return <p>Chargement du profil...</p>;
+  if (error) return <p>Erreur lors du chargement du profil: {error}</p>;
 
   return (
    
     <div className={style.user}>
       {
         isEditing ? (
-          <EditName />
+          <EditName firstName= {firstName} lastName={lastName}/>
         )
           : (
             <div className={style.header}>
