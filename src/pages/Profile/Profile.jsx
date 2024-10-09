@@ -41,7 +41,7 @@ const Profile = () => {
             <div className={style.header}>
               <h1>Welcome back<br />{firstName} {lastName}!</h1>
               <button
-                onClick={() => setIsEditing(true)}
+               onClick={startEditing}
                 className={style.editName}>
                 Edit Name
               </button>

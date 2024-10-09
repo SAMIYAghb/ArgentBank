@@ -28,20 +28,22 @@ const Navbar = () => {
         {
           isAuthenticated ? (
             <>
-              <p>{firstName} {lastName}</p>
-              <button onClick={handleLogout} className="main-nav-item">
-                <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                {/* <i className="fas fa-sign-out-alt"></i> */}
-                <span>
-                  Sign out
-                </span>
-              </button>
+              <div className='nav-right-items'>
+                <p className="main-nav-name">
+                <i className="fa fa-user-circle" />{firstName}</p>
+                <button onClick={handleLogout} className="main-nav-item">
+                <i className="fa fa-sign-out" />
+                  <span>
+                    Sign out
+                  </span>
+                </button>
+              </div>
             </>
           ) : (
-              <Link to="/login" className="main-nav-item">
-                <i className="fa fa-user-circle" />
-                <span>Sign In</span>
-              </Link>
+            <Link to="/login" className="main-nav-item">
+              <i className="fa fa-user-circle" />
+              <span>Sign In</span>
+            </Link>
           )
         }
       </div>
