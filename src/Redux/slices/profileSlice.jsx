@@ -14,7 +14,7 @@ export const profileUser = createAsyncThunk(
             // Vérifiez que la fonction est bien appelée
             console.log('Appel de la fonction profileUser avec');
             // Récupérer le token de l'utilisateur à partir du localStorage
-            const token = localStorage.getItem('userToken');
+            const token = sessionStorage.getItem('userToken');
             if (!token) throw new Error('Utilisateur non authentifié');
 
             // Requête GET pour récupérer les informations de l'utilisateur
