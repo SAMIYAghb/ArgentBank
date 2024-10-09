@@ -3,98 +3,64 @@ import style from './EditName.module.css'
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { editProfileUser } from '../../Redux/slices/editProfileSlice';
+import { profileUser } from '../../Redux/slices/profileSlice';
 // import { profileUser } from '../../Redux/slices/profileSlice';
 
-const EditName = ({ firstName, lastName }) => {
+const EditName = ({ firstName, lastName, onCancel }) => {
 
     const dispatch = useDispatch();
     const [firstNameInput, setFirstNameInput] = useState(firstName);
     const [lastNameInput, setLastNameInput] = useState(lastName);
-    // const [isUpdated, setIsUpdated] = useState(false);
-    const [isEditing, setIsEditing] = useState(true); // Track if we are in editing mode
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(editProfileUser({ firstName: firstNameInput, lastName: lastNameInput }))
-        .unwrap() // Use unwrap to handle fulfilled/rejected cases
-            .then(() => {
-                setIsEditing(false); // Exit editing mode after save
-            });
-    };
+        console.log("Submitting form with:", firstNameInput, lastNameInput);
 
-    const handleCancel = () => {
-        setFirstNameInput(firstName);
-        setLastNameInput(lastName);
-        setIsEditing(false); // Exit editing mode without saving
+        dispatch(editProfileUser({ firstName: firstNameInput, lastName: lastNameInput }))
+            .unwrap() // Use unwrap to handle fulfilled/rejected cases
+            .then(() => {
+                dispatch(profileUser({ firstName: firstNameInput, lastName: lastNameInput })); // Update profile in Redux
+
+                onCancel(); // Exit editing mode after save
+
+                console.log("Profile updated successfully");
+            })
+            .catch((error) => {
+                console.error("Error updating profile:", error);
+            });
     };
 
     return (
         <>
             <h1 className={style.TitleAccount}>Welcome back</h1>
-
-            {/* <form 
-             onSubmit={handleSubmit}
-            className={style.EditName}>
+            <form className={style.EditName} onSubmit={handleSubmit}>
                 <div className={style.inputs}>
                     <input
                         type="text"
-                        placeholder="Tony"
-                        value={firstNameInput} 
-                        onChange={(e) => setFirstNameInput(e.target.value)}/>
+                        placeholder="First Name"
+                        value={firstNameInput}
+                        onChange={(e) => setFirstNameInput(e.target.value)}
+                        required
+                    />
                     <input
                         type="text"
-                        placeholder="Jarvis"
-                        value={lastNameInput} 
-                        onChange={(e) => setLastNameInput(e.target.value)}/>
+                        placeholder="Last Name"
+                        value={lastNameInput}
+                        onChange={(e) => setLastNameInput(e.target.value)}
+                        required
+                    />
                 </div>
                 <div className={style.buttons}>
-                    <button 
-                    type="submit"
-                    className={style.editButton}>Save
-                    </button>
-                    <button 
-                     onClick={handleCancel}
-                    className={style.editButton}>Cancel
-                    </button>
+                    <button type="submit" className={style.editButton}>Save</button>
+                    <button type="button" className={style.editButton} onClick={onCancel}>Cancel</button>
                 </div>
-            </form> */}
-
-{isEditing ? (
-                <form className={style.EditName} onSubmit={handleSubmit}>
-                    <div className={style.inputs}>
-                        <input
-                            type="text"
-                            placeholder="First Name"
-                            value={firstNameInput}
-                            onChange={(e) => setFirstNameInput(e.target.value)} // Update local state
-                            required
-                        />
-                        <input
-                            type="text"
-                            placeholder="Last Name"
-                            value={lastNameInput}
-                            onChange={(e) => setLastNameInput(e.target.value)} // Update local state
-                            required
-                        />
-                    </div>
-                    <div className={style.buttons}>
-                        <button type="submit" className={style.editButton}>Save</button>
-                        <button type="button" className={style.editButton} onClick={handleCancel}>Cancel</button>
-                    </div>
-                </form>
-            ) : (
-                <div className={style.profileDisplay}>
-                    <h1>{firstNameInput} {lastNameInput}</h1>                   
-                    <button className={style.editName} onClick={() => setIsEditing(true)}>Edit</button>
-                </div>
-            )}
+            </form>
         </>
     );
-   
 }
 EditName.propTypes = {
-    firstName: PropTypes.string, 
-    lastName: PropTypes.string, 
-  };
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    onCancel: PropTypes.func,
+};
 export default EditName 

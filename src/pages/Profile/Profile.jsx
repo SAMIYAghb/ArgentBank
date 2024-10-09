@@ -15,7 +15,13 @@ const Profile = () => {
   // Appelle l'action profileUser pour récupérer les données de profil
   useEffect(() => {
     dispatch(profileUser({firstName, lastName })); //adapter selon ce que tu passes en paramètre
-  }, [firstName, lastName]);
+  }, [dispatch, firstName, lastName]);
+
+  // Handler to start editing
+  const startEditing = () => setIsEditing(true);
+  
+  // Handler to stop editing
+  const stopEditing = () => setIsEditing(false);
 
   // Affichage des informations de profil ou gestion des erreurs/chargement
   if (loading) return <p>Chargement du profil...</p>;
@@ -26,7 +32,10 @@ const Profile = () => {
     <div className={style.user}>
       {
         isEditing ? (
-          <EditName firstName= {firstName} lastName={lastName}/>
+          <EditName 
+          firstName= {firstName} lastName={lastName}
+          onCancel={stopEditing}
+          />
         )
           : (
             <div className={style.header}>

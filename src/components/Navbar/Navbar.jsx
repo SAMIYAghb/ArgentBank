@@ -38,13 +38,10 @@ const Navbar = () => {
               </button>
             </>
           ) : (
-            <>
-              <p>{firstName} {lastName}</p>F
               <Link to="/login" className="main-nav-item">
                 <i className="fa fa-user-circle" />
                 <span>Sign In</span>
               </Link>
-            </>
           )
         }
       </div>
