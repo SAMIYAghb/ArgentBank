@@ -10,7 +10,7 @@ const URL_API = "http://localhost:3001/api/v1";
 // Thunk pour l'appel API du login
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
-  async ({ email, password }, { rejectWithValue }) => {
+  async ({ email, password, rememberMe }, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${URL_API}/user/login`, { email, password });
       // console.log(response.data)
@@ -22,6 +22,13 @@ export const loginUser = createAsyncThunk(
 
       // Stocker le token dans le  sessionStorage
       sessionStorage.setItem('userToken', token);
+      // localStorage.setItem('userToken', token);
+      // Store the token in the correct storage based on "Remember me"
+      if (rememberMe) {
+        localStorage.setItem('userToken', token); // Save token in localStorage if "Remember me" is checked
+      } else {
+        sessionStorage.setItem('userToken', token); // Save token in sessionStorage if not
+      }
       // sessionStorage.setItem('userToken', response?.data?.body?.token); 
       // Décoder le token
       const decodedToken = jwtDecode(token);
@@ -38,7 +45,7 @@ export const loginUser = createAsyncThunk(
 const initialState = {
   email: '',
   password: '',
-  isAuthenticated: !!sessionStorage.getItem('userToken'), // Vérifiez si le token est présent
+  isAuthenticated: !!sessionStorage.getItem('userToken')|| !!localStorage.getItem('userToken'), // Check both storages
   decodedToken: null, // Ajouter un champ pour stocker le token décodé
   loading: false,
   error: null,
@@ -56,6 +63,7 @@ const authSlice = createSlice({
       state.decodedToken = null; // Réinitialiser le token décodé
       // Supprimer le token JWT du localStorage
       sessionStorage.removeItem('userToken');
+      localStorage.removeItem('userToken');
     },
   },
   extraReducers: (builder) => {

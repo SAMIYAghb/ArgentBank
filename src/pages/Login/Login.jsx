@@ -19,7 +19,7 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(loginUser({ email, password })); // Appelle la thunk pour faire l'API call // Envoie l'action de login
+    dispatch(loginUser({ email, password, rememberMe })); // Appelle la thunk pour faire l'API call // Envoie l'action de login
   };
 
   const navigate = useNavigate();
@@ -29,8 +29,7 @@ const Login = () => {
     if (isAuthenticated) {
       // console.log("Authenticated: Triggering success toast");
       toast.success("Vous êtes connectés!");
-      // const token = sessionStorage.getItem('userToken');
-      // console.log(token);
+
       if (decodedToken) {
         // console.log(decodedToken)
         navigate('/profile'); // Redirection vers la page de l'utilisateur
@@ -95,12 +94,12 @@ const Login = () => {
           <button type='submit' className="sign-in-button" disabled={loading}>{loading ? 'Connexion...' : 'Sign In'}</button>
         </form>
          {/* Lien pour la création de compte */}
-         <div className="sign-up-link">
+         {/* <div className="sign-up-link">
           <p>Have&apos;nt an account?</p>
           <button onClick={() => navigate('/signup')} className="create-account-button">
           Sign up
           </button>
-        </div>
+        </div> */}
         <ToastContainer />
       </section>
     </main>
