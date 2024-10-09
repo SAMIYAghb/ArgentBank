@@ -148,8 +148,8 @@ body {
 }
 
 .feature-icon {
-  /* width: 100px; */
-  width: 65px;
+  width: 100px;
+  /* width: 65px; */
   border: 10px solid #00bc77;
   border-radius: 50%;
   padding: 1rem;

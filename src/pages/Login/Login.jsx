@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../Redux/slices/authSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { jwtDecode } from "jwt-decode";
+
 import '../../css/main.css'
 
 const Login = () => {
@@ -15,7 +15,7 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false); // Nouvelle state pour "Remember me"
 
   const dispatch = useDispatch();
-  const { isAuthenticated, loading, error } = useSelector((state) => state.auth);
+  const { isAuthenticated,decodedToken,  loading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -29,15 +29,15 @@ const Login = () => {
     if (isAuthenticated) {
       // console.log("Authenticated: Triggering success toast");
       toast.success("Vous êtes connectés!");
-      const token = localStorage.getItem('userToken');
+      // const token = sessionStorage.getItem('userToken');
       // console.log(token);
-      if (token) {
-        const decodedToken = jwtDecode(token);
-        console.log('User Data:', decodedToken);
+      if (decodedToken) {
+        // console.log(decodedToken)
+        navigate('/profile'); // Redirection vers la page de l'utilisateur
       }
-      navigate('/profile'); // Redirection vers la page de l'utilisateur
+      
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, decodedToken, navigate]);
 
   useEffect(() => {
     if (error) {
@@ -46,16 +46,16 @@ const Login = () => {
   }, [error]);
 
   // Stocke le token en fonction de l'état de "Remember me"
-  useEffect(() => {
-    const token = localStorage.getItem('userToken') || sessionStorage.getItem('userToken');
-    if (isAuthenticated && token) {
-      if (rememberMe) {
-        localStorage.setItem('userToken', token); // Stocker dans localStorage
-      } else {
-        sessionStorage.setItem('userToken', token); // Stocker dans sessionStorage
-      }
-    }
-  }, [isAuthenticated, rememberMe]);
+  // useEffect(() => {
+  //   const token = sessionStorage.getItem('userToken');
+  //   if (isAuthenticated && token) {
+  //     if (rememberMe) {
+  //       localStorage.setItem('userToken', token); // Stocker dans localStorage
+  //     } else {
+  //       sessionStorage.setItem('userToken', token); // Stocker dans sessionStorage
+  //     }
+  //   }
+  // }, [isAuthenticated, rememberMe]);
 
   return (
     <main className="login">

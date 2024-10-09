@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 const URL_API = "http://localhost:3001/api/v1";
 
@@ -12,12 +13,22 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${URL_API}/user/login`, { email, password });
-      console.log(response.data)
+      // console.log(response.data)
       // console.log(response.data.message)
       // console.log(response.data.body.token)
       // Store the token in local storage
-      localStorage.setItem('userToken', response?.data?.body?.token);
-      return response?.data; // Retourne les données de l'API si succès
+      // localStorage.setItem('userToken', response?.data?.body?.token);
+      const token = response?.data?.body?.token;
+
+      // Stocker le token dans le  sessionStorage
+      sessionStorage.setItem('userToken', token);
+      // sessionStorage.setItem('userToken', response?.data?.body?.token); 
+      // Décoder le token
+      const decodedToken = jwtDecode(token);
+
+      // Retourner à la fois les données de l'API et le token décodé
+      return { ...response?.data, decodedToken };
+      // return response?.data; // Retourne les données de l'API si succès
     } catch (error) {
       return rejectWithValue(error?.response?.data); // Gestion des erreurs
     }
@@ -27,7 +38,8 @@ export const loginUser = createAsyncThunk(
 const initialState = {
   email: '',
   password: '',
-  isAuthenticated: !!localStorage.getItem('userToken'), // Vérifiez si le token est présent
+  isAuthenticated: !!sessionStorage.getItem('userToken'), // Vérifiez si le token est présent
+  decodedToken: null, // Ajouter un champ pour stocker le token décodé
   loading: false,
   error: null,
 };
@@ -41,9 +53,9 @@ const authSlice = createSlice({
       state.password = '';
       state.isAuthenticated = false;
       state.error = null;
-
+      state.decodedToken = null; // Réinitialiser le token décodé
       // Supprimer le token JWT du localStorage
-      localStorage.removeItem('userToken');
+      sessionStorage.removeItem('userToken');
     },
   },
   extraReducers: (builder) => {
@@ -55,6 +67,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.email = action.payload.email;
         state.isAuthenticated = true;
+        state.decodedToken = action.payload.decodedToken; // Stocker le token décodé dans le state
         state.loading = false;
         state.error = null;
       })

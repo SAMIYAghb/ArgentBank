@@ -1,0 +1,188 @@
+openapi: 3.0.3
+info:
+  title: API de Gestion des Transactions
+  description: API pour gérer les transactions des utilisateurs.
+  version: 1.0.0
+servers:
+  - url: https://localhost:3001
+tags:
+  - name: Transactions
+    description: Endpoints pour gérer les transactions des utilisateurs
+    
+    
+paths:
+  /transactions:
+    get:
+      tags:
+        - Transactions
+      summary: Récupérer toutes les transactions pour le mois en cours
+      description:  Récupère toutes les transactions groupées par compte pour le mois en cours.
+      responses:
+        '200':
+          description: Succès - Liste des transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '404':
+          description: Aucune transaction trouvée pour le mois en cours
+    post:
+    tags:
+        - Transactions
+      summary: Ajouter une nouvelle transaction
+      description: Ajoute une nouvelle transaction à la base de données.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '201':
+          description: Succès - Transaction ajoutée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+        description: Entrée invalide pour la transaction.
+        
+  
+  /transactions/{transactionId}:
+    get:
+      tags:
+        - Transactions
+      summary: Récupérer une transaction par ID
+      description: Retourne les détails d'une transaction spécifique par son ID.
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          description: ID de la transaction à récupérer
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Succès - Renvoie les détails de la transaction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '404':
+          description: Transaction non trouvée 
+          
+    put:
+      tags:
+        - Transactions
+      summary: Modifier une transaction existante
+      description: Modifie les informations d'une transaction existante.
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          description: ID de la transaction à modifier
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '200':
+          description: Succès - Transaction mise à jour avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '404':
+          description: Transaction non trouvée
+        '400':
+          description: Erreur de validation des données de la transaction
+          
+          
+    delete:
+      tags:
+        - Transactions
+      summary: Supprimer une transaction
+      description: Supprime une transaction existante par son ID.
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          description: ID de la transaction à supprimer
+          schema:
+            type:  integer
+        responses:
+        '204':
+          description: Succès - Transaction supprimée avec succès.
+        '404':
+           description: Transaction non trouvée.
+          
+          
+  components:
+  schemas:
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID unique de la transaction
+        amount:
+          type: number
+          format: float
+          description: Montant de la transaction
+        date:
+          type: string
+          format: date-time
+          description: Date de la transaction
+        account:
+          type: string
+          description: ID du compte associé à la transaction
+        description:
+          type: string
+          description: Description de la transaction
+
+
+
+
+
+
+
+Explications des Endpoints
+GET /transactions : Récupère toutes les transactions du mois en cours, regroupées par compte.
+
+Réponses :
+200 : Liste des transactions.
+204 : Aucune transaction trouvée.
+POST /transactions : Ajoute une nouvelle transaction.
+
+Réponses :
+201 : Transaction créée avec succès.
+400 : Entrée invalide.
+GET /transactions/{transactionId} : Récupère les détails d'une transaction spécifique.
+
+Réponses :
+200 : Détails de la transaction.
+404 : Transaction non trouvée.
+PUT /transactions/{transactionId} : Modifie une transaction existante.
+
+Réponses :
+200 : Transaction mise à jour.
+400 : Entrée invalide.
+404 : Transaction non trouvée.
+DELETE /transactions/{transactionId} : Supprime une transaction spécifique.
+
+Réponses :
+204 : Transaction supprimée.
+404 : Transaction non trouvée.
+
+
+
+
+
+
+

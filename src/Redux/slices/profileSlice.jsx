@@ -12,13 +12,13 @@ export const profileUser = createAsyncThunk(
     }) => {
         try {
             // Vérifiez que la fonction est bien appelée
-      console.log('Appel de la fonction profileUser avec');
+            console.log('Appel de la fonction profileUser avec');
             // Récupérer le token de l'utilisateur à partir du localStorage
             const token = localStorage.getItem('userToken');
-            if (!token) throw new Error('Utilisateur non authentifié');        
+            if (!token) throw new Error('Utilisateur non authentifié');
 
             // Requête GET pour récupérer les informations de l'utilisateur
-            const response = await axios.post(`${URL_API}/user/profile`,{ firstName, lastName }, {
+            const response = await axios.post(`${URL_API}/user/profile`, { firstName, lastName }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -26,7 +26,7 @@ export const profileUser = createAsyncThunk(
             });
             // console.log('Token avant la requête:', token);
             // Vérifiez la réponse de l'API
-      console.log('Réponse de l API:', response?.data?.body);
+            console.log('Réponse de l API:', response?.data?.body);
             // console.log(response.data.body)
             return response?.data?.body; // Retourne les données du profil de l'utilisateur
         }
