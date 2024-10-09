@@ -10,12 +10,12 @@ const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const { firstName, lastName, loading, error } = useSelector((state) => state.profile);
-  console.log(firstName, lastName);
+  // console.log(firstName, lastName);
 
   // Appelle l'action profileUser pour récupérer les données de profil
   useEffect(() => {
     dispatch(profileUser({firstName, lastName })); //adapter selon ce que tu passes en paramètre
-  }, []);
+  }, [firstName, lastName]);
 
   // Affichage des informations de profil ou gestion des erreurs/chargement
   if (loading) return <p>Chargement du profil...</p>;
