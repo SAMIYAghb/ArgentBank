@@ -14,7 +14,6 @@ const EditName = ({ firstName, lastName, onCancel }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Submitting form with:", firstNameInput, lastNameInput);
 
         dispatch(editProfileUser({ firstName: firstNameInput, lastName: lastNameInput }))
             .unwrap() // Use unwrap to handle fulfilled/rejected cases
@@ -23,10 +22,9 @@ const EditName = ({ firstName, lastName, onCancel }) => {
 
                 onCancel(); // Exit editing mode after save
 
-                console.log("Profile updated successfully");
             })
             .catch((error) => {
-                console.error("Error updating profile:", error);
+                return error;
             });
     };
 

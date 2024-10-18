@@ -13,13 +13,29 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false); // Nouvelle state pour "Remember me"
+  const [emailError, setEmailError] = useState(null); // State for email validation error
+  const [passwordError, setPasswordError] = useState(null);
 
   const dispatch = useDispatch();
   const { isAuthenticated,decodedToken,  loading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(loginUser({ email, password, rememberMe })); // Appelle la thunk pour faire l'API call // Envoie l'action de login
+    // dispatch(loginUser({ email, password, rememberMe })); // Appelle la thunk pour faire l'API call // Envoie l'action de login
+
+    setEmailError(null);
+    setPasswordError(null);
+
+    if (!email) {
+      setEmailError('Email is required');
+    }
+    if (!password) {
+      setPasswordError('Password is required');
+    }
+
+    if (email && password) {
+      dispatch(loginUser({ email, password, rememberMe })); // Dispatch the action to login
+    }
   };
 
   const navigate = useNavigate();
@@ -27,11 +43,10 @@ const Login = () => {
   // Redirige vers la page du compte après la connexion
   useEffect(() => {
     if (isAuthenticated) {
-      // console.log("Authenticated: Triggering success toast");
       toast.success("Vous êtes connectés!");
 
       if (decodedToken) {
-        // console.log(decodedToken)
+
         navigate('/profile'); // Redirection vers la page de l'utilisateur
       }
       
@@ -44,18 +59,7 @@ const Login = () => {
     }
   }, [error]);
 
-  // Stocke le token en fonction de l'état de "Remember me"
-  // useEffect(() => {
-  //   const token = sessionStorage.getItem('userToken');
-  //   if (isAuthenticated && token) {
-  //     if (rememberMe) {
-  //       localStorage.setItem('userToken', token); // Stocker dans localStorage
-  //     } else {
-  //       sessionStorage.setItem('userToken', token); // Stocker dans sessionStorage
-  //     }
-  //   }
-  // }, [isAuthenticated, rememberMe]);
-
+  
   return (
     <main className="login">
       <section className="sign-in-content">
@@ -69,8 +73,9 @@ const Login = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
+              
             />
+            {emailError && <p className="error-message">{emailError}</p>}
           </div>
           <div className="input-wrapper">
             <label htmlFor="password">Password</label>
@@ -79,8 +84,8 @@ const Login = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
             />
+            {passwordError && <p className="error-message">{passwordError}</p>}
           </div>
           <div className="input-remember">
             <input

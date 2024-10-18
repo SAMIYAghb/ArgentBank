@@ -13,16 +13,12 @@ export const loginUser = createAsyncThunk(
   async ({ email, password, rememberMe }, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${URL_API}/user/login`, { email, password });
-      // console.log(response.data)
-      // console.log(response.data.message)
-      // console.log(response.data.body.token)
-      // Store the token in local storage
-      // localStorage.setItem('userToken', response?.data?.body?.token);
+
       const token = response?.data?.body?.token;
 
       // Stocker le token dans le  sessionStorage
       sessionStorage.setItem('userToken', token);
-      // localStorage.setItem('userToken', token);
+
       // Store the token in the correct storage based on "Remember me"
       if (rememberMe) {
         localStorage.setItem('userToken', token); // Save token in localStorage if "Remember me" is checked

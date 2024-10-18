@@ -10,7 +10,6 @@ const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const { firstName, lastName, loading, error } = useSelector((state) => state.profile);
-  // console.log(firstName, lastName);
 
   // Appelle l'action profileUser pour récupérer les données de profil
   useEffect(() => {

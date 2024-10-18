@@ -14,8 +14,6 @@ export const signupUser = createAsyncThunk(
                     'Content-Type': 'application/json'
                 },
             });
-            console.log(response.data)
-            // console.log(response.data)
             return response?.data; // Retourne les données de l'API si succès
         } catch (error) {
             return rejectWithValue(error?.response?.data); // Gestion des erreurs
