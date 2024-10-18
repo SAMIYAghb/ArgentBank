@@ -49,10 +49,10 @@ paths:
           required: true
           type: string
       produces:
-        - e
+        - application/json
       responses:
         '200':
-          description: User profile retrieved successully
+          description: User profile retrieved successfully
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
@@ -82,7 +82,7 @@ paths:
         - application/json
       responses:
         '200':
-          description: User profile retrieved successully
+          description: User profile retrieved successfully
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
@@ -100,7 +100,7 @@ paths:
       description: API for fetching a user profile to recover bank accounts
       parameters:
         - in: header
-          type : string
+          type: string
           name: Authorization
           description: Attach Bearer JWT token
           required: true
@@ -108,7 +108,7 @@ paths:
         - application/json
       responses:
         '200':
-          description: Retrieve all user's bank accounts successully
+          description: Retrieve all user's bank accounts successfully
           schema:
             $ref: '#/definitions/Accounts'
         '400':
@@ -123,10 +123,10 @@ paths:
       tags:
         - User transaction Module
       summary: Recover bank account transaction
-      description: API for fetching a user profile to recover transaction  
+      description: API for fetching a user profile to recover a transaction  
       parameters:
         - in: header
-          type : string
+          type: string
           name: Authorization
           description: Attach Bearer JWT token
           required: true
@@ -139,7 +139,7 @@ paths:
         - application/json
       responses:
         '200':
-          description: User transaction retrieved successully
+          description: User transaction retrieved successfully
           schema:
             $ref: '#/definitions/TransactionsDetails'
         '400':
@@ -157,7 +157,7 @@ paths:
       description: API for fetching a user profile to update transaction category 
       parameters:
         - in: header
-          type : string
+          type: string
           name: Authorization
           description: Attach Bearer JWT token
           required: true
@@ -176,47 +176,41 @@ paths:
         - application/json
       responses:
         '200':
-          description: User transaction category update successully
+          description: User transaction category updated successfully
           schema:
             $ref: '#/definitions/EditTransactionCategory'
         '400':
           description: Invalid Fields
         '500':
           description: Internal Server Error
-          
-  /user/account/transaction/{transactionId}/edit/notes:
-     put:
+
+  /user/account/transaction/add:
+     post:
       security:
         - Bearer: []
       tags:
         - User transaction Module
-      summary: Update notes of transaction
-      description: API for fetching a user profile to update transaction note 
+      summary: Add a new transaction
+      description: API for adding a new transaction 
       parameters:
         - in: header
-          type : string
+          type: string
           name: Authorization
           description: Attach Bearer JWT token
           required: true
-        - in: path
-          name: transactionId
-          description: User's transaction ID
-          type: integer
-          required: true
         - in: body
           name: body
-          description: Signup Payload
+          description: Transaction Payload
           required: true
-        
           schema:
-            $ref: '#/definitions/BodyEditTransactionNote'
+            $ref: '#/definitions/AddTransaction'
       produces:
         - application/json
       responses:
         '200':
-          description: User transaction note update successully
+          description: Transaction added successfully
           schema:
-            $ref: '#/definitions/EditTransactionNote'
+            $ref: '#/definitions/AddTransactionResponse'
         '400':
           description: Invalid Fields
         '500':
@@ -261,7 +255,6 @@ definitions:
             type: string
             description: user last name
             
-            
   LoginResponse:
     type: object
     properties:
@@ -278,7 +271,7 @@ definitions:
 
   Accounts:
     type: object
-    description : Accounts lists for this user
+    description: Accounts lists for this user
     properties:
       status:
         type: integer
@@ -291,7 +284,7 @@ definitions:
           properties:
             id:
               type: string
-              description : id of account
+              description: id of account
               example: d290f1ee-6c54-4b01-90e6-d701748f0851
             name:
               type: string
@@ -304,7 +297,7 @@ definitions:
 
   TransactionsDetails:
     type: object
-    description : transaction recover
+    description: transaction recover
     properties:
       status:
         type: integer
@@ -317,7 +310,7 @@ definitions:
           properties:
             id:
               type: string
-              description : id of transaction
+              description: id of transaction
               example: d290f1ee-6c54-4b01-90e6-d701748f0851
             amount:
               type: string
@@ -345,47 +338,65 @@ definitions:
               description: category of transaction
               example: Food
 
-  BodyEditTransactionCategory : 
+  BodyEditTransactionCategory: 
     type: object
-    description : Edit category of transaction
-    properties :
-        category:
-          type: string
-          description: category of transaction
-          example: Car's repair
-  
-  EditTransactionCategory :
-    type: object
-    description : Api response
+    description: Edit category of transaction
     properties:
-        status:
-          type: integer
-        message:
-          type: string
-        category:
-          type: string
-          description: category of transaction
-          example: Car's repair          
-          
-  BodyEditTransactionNote : 
-    type: object
-    description : Edit notes of transaction
-    properties :
-        comment:
-            type: string
-            description: notes of transaction
-            example: Transfer from my current account
+      category:
+        type: string
+        description: category of transaction
+        example: Car's repair
   
-  EditTransactionNote :
+  EditTransactionCategory:
     type: object
-    description : Api response
+    description: API response
     properties:
-        status:
-          type: integer
-        message:
-          type: string  
-        comment:
-          type: string
-          description: notes of transaction
-          example: Transfer from my current account
-      
+      status:
+        type: integer
+      message:
+        type: string
+      category:
+        type: string
+        description: category of transaction
+        example: Car's repair          
+
+  AddTransaction:
+    type: object
+    description: Add a new transaction
+    properties:
+      amount:
+        type: string
+        description: transaction amount
+        example: 100,00
+      date:
+        type: string
+        format: date-time
+        example: 2024-10-18T10:00:00.000Z
+      description:
+        type: string
+        description: description of the transaction
+        example: Bookstore purchase
+      type:
+        type: string
+        description: type of transaction
+        example: Withdrawal
+      comment:
+        type: string
+        description: notes of transaction
+        example: Urgent withdrawal for trip expenses
+      category:
+        type: string
+        description: category of transaction
+        example: Travel
+  
+  AddTransactionResponse:
+    type: object
+    description: API response for adding transaction
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      transactionId:
+        type: string
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
